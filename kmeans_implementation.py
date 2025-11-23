@@ -1,19 +1,15 @@
-#kmeans_implementation.py
-
-
 '''
-Les résultats suggèrent que K-means peine avec la structure non-sphérique des données. 
+Les résultats suggèrent que K-means a des difficultes avec la structure non-sphérique des données. 
 Les classes 5 (main) et 8 (animal) mentionnées comme problématiques dans le PDF sont effectivement mal classées. 
 Le clustering non-supervisé est inadapté pour ces formes complexes avec occlusions et distorsions.
 Conclusion: Résultats cohérents avec les difficultés attendues mais performance trop faible pour être utilisable. 
 KNN supervisé (98% avec GFD) largement supérieur.
-
 '''
 
-import os
 import numpy as np
 from collections import Counter
 import matplotlib.pyplot as plt
+from utils import charger_donnees, distance_euclidienne
 
 # Fixer la seed pour la reproductibilité
 np.random.seed(42)
@@ -21,44 +17,12 @@ np.random.seed(42)
 # Dossier principal contenant les sous-dossiers qui sont les methodes
 base_folder = "C:/Users/lakaf/OneDrive/Bureau/25-26/RF/Projet_RF/data"
 
-# Définition des classes, échantillons et méthodes
-classes = range(1, 10)  # s01 à s09
-samples = range(1, 12)  # n001 à n011
-methods = ["E34", "GFD", "SA", "F0", "F2"]
-
-# Dictionnaire pour stocker toutes les données
-data = {}
-
-# Lecture des données
-for c in classes:
-    for s in samples:
-        key = f"s{c:02d}n{s:03d}"
-        data[key] = {"class": c}
-        
-        for method in methods:
-            method_folder = os.path.join(base_folder, method)
-            filename = os.path.join(method_folder, f"{key}.{method}")
-
-            if os.path.exists(filename):
-                try:
-                    with open(filename, "r") as f:
-                        values = f.read().strip().split()
-                        data[key][method] = np.array(values, dtype=float)
-                except Exception as e:
-                    print(f"Erreur lecture {filename} : {e}")
-            else:
-                print(f"Fichier manquant : {filename}")
-
-print("Lecture terminée.")
-print("Nombre total d'images :", len(data))
+# Charger toutes les données
+data = charger_donnees(base_folder)
 
 # ============================
 # Implémentation K-Means
 # ============================
-
-def distance_euclidienne(a, b):
-    """Calcule la distance euclidienne entre deux vecteurs"""
-    return np.sqrt(np.sum((a - b) ** 2))
 
 def initialiser_centroides(X, k, method='random'):
     """
