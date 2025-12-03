@@ -22,7 +22,7 @@ def separer_train_test_par_echantillon(data, method, echantillons_test):
                 y_train.append(value["class"])
 
     return np.array(X_train), np.array(y_train), np.array(X_test), np.array(y_test)
-
+'''
 def afficher_matrice_confusion(y_true, y_pred, classes, titre="Matrice de Confusion"):
     cm = confusion_matrix(y_true, y_pred, labels=classes)
     plt.figure(figsize=(8,6))
@@ -31,13 +31,22 @@ def afficher_matrice_confusion(y_true, y_pred, classes, titre="Matrice de Confus
     plt.ylabel("Réel")
     plt.title(titre)
     plt.show()
-
+'''
+    
+def afficher_matrice_confusion(y_true, y_pred, classes, titre="Matrice de Confusion"):
+    cm = confusion_matrix(y_true, y_pred, labels=classes)
+    print(f"\n{titre} :")
+    # Affichage avec entêtes pour plus de lisibilité
+    header = "    " + " ".join([f"{c:>3}" for c in classes])
+    print(header)
+    for i, row in enumerate(cm):
+        print(f"{classes[i]:>3} " + " ".join([f"{val:>3}" for val in row]))
 
 def afficher_classification_report(y_true, y_pred, classes):
     """
     Affiche précision, rappel et F1-score pour chaque classe.
     """
-    print(classification_report(y_true, y_pred, labels=classes))
+    print(classification_report(y_true, y_pred, labels=classes, zero_division=0))
 
 
 '''

@@ -1,9 +1,8 @@
 import numpy as np
 from data_loader import charger_donnees
 from knn import validation_croisee_knn, predire_knn
-from metrics import courbe_precision_rappel_knn
 from utils import separer_train_test_par_echantillon, afficher_matrice_confusion, afficher_classification_report
-from kmeans import kmeans, evaluer_clustering, mapper_clusters_vers_classes
+from kmeans import kmeans, evaluer_clustering, mapper_clusters_vers_classes, validation_croisee_kmeans
 
 # ============================
 # CONFIGURATION
@@ -29,27 +28,29 @@ print("TEST KNN SIMPLE SUR SPLIT FIXE")
 print("="*50)
 
 echantillons_test = [2, 5, 8]
-knn_results = {}
 
 for method in methods:
     print(f"\nMéthode : {method}")
-    # Séparation train/test
-    X_train, y_train, X_test, y_test = separer_train_test_par_echantillon(data, method, echantillons_test)
     
-    # Prédiction KNN pour tous les vecteurs test
-    y_pred = []
-    y_votes = []
+    # Séparer train/test
+    X_train, y_train, X_test, y_test = separer_train_test_par_echantillon(data, method, echantillons_test)
+    print(f"Échantillons de test : {echantillons_test}")
+    
+    # Prédiction
+    y_pred = [predire_knn(X_train, y_train, x, k=5) for x in X_test]
 
-    for x in X_test:
-        classe = predire_knn(X_train, y_train, x, k=5)
-        y_pred.append(classe)
+    # Affichage de l'accuracy
+    accuracy = np.mean(np.array(y_pred) == np.array(y_test))
+    print(f"Accuracy : {accuracy*100:.2f}%\n")
+    
+    # Matrice de confusion
+    print("Matrice de Confusion :")
+    afficher_matrice_confusion(y_test, y_pred, classes, titre=f"KNN – Matrice de Confusion ({method})")
+    
+    # Rapport classification
+    print("\nRapport de classification :\n")
+    afficher_classification_report(y_test, y_pred, classes)
 
-
-    knn_results[method] = {
-        "X_train": X_train, "y_train": y_train,
-        "X_test": X_test, "y_test": y_test,
-        "y_pred": y_pred
-    }
 
 # ============================
 # TEST KNN AVEC VALIDATION CROISÉE
@@ -65,56 +66,10 @@ for method in methods:
     y = [data[key]["class"] for key in data if method in data[key]]
 
     print(f"\nMéthode : {method}")
-    for k in [3, 5, 7]:
+    for k in [1, 3, 5, 7]:
         mean_acc, std_acc, accs = validation_croisee_knn(X, y, k=k, n_folds=5)
         print(f"  k={k} → Moyenne : {mean_acc*100:.2f}% ± {std_acc*100:.2f}%")
         print(f"  Accuracies par fold : {[f'{a*100:.2f}%' for a in accs]}")
-
-# ============================
-# ANALYSE DE LA METHODE KNN
-# ============================
-print("\n" + "="*50)
-print("ANALYSE DES ERREURS (GFD, k=5)")
-print("="*50)
-
-classes_bdshape = list(range(1,10))
-
-for method in methods:
-    print("\n" + "="*50)
-    print(f"ANALYSE KNN – Méthode : {method}")
-    print("="*50)
-
-    y_test = knn_results[method]["y_test"]
-    y_pred = knn_results[method]["y_pred"]
-
-    # Matrice de confusion
-    afficher_matrice_confusion(y_test, y_pred, classes_bdshape, titre=f"KNN – Matrice de Confusion ({method})")
-    
-    # Précision, rappel, F1-score
-    afficher_classification_report(y_test, y_pred, classes_bdshape)
-
-"""
-# ============================
-# COURBE PRECISION–RAPPEL KNN
-# ============================
-print("\n" + "="*50)
-print("COURBES PRECISION–RAPPEL KNN")
-print("="*50)
-
-for method in methods:
-    print(f"\nCourbe PR – Méthode : {method}")
-    
-    y_test = knn_results[method]["y_test"]
-    y_pred_votes = knn_results[method]["y_votes"]
-    
-    courbe_precision_rappel_knn(
-        y_test,
-        y_pred_votes,
-        classes_bdshape,
-        method_name=method,
-        k=5
-    )
-"""
 
 # ============================
 # TEST K-MEANS
@@ -153,15 +108,22 @@ for method in methods:
     # Précision, rappel, F1-score
     afficher_classification_report(y_true, y_mapped, classes_bdshape)
 
-    # Sauvegarder résultats, pour un eventuel excel
-    kmeans_results[method] = {
-        "X": X,
-        "y_true": y_true,
-        "y_pred": y_pred,
-        "y_mapped": y_mapped,
-        "centroids": centroids,
-        "inertia": inertia,
-        "purity": purity,
-        "mapping": mapping,
-        "keys": keys
-    }
+# ============================
+# VALIDATION CROISÉE K-MEANS
+# ============================
+print("\n" + "="*50)
+print("VALIDATION CROISÉE K-MEANS")
+print("="*50)
+
+for method in methods:
+    print(f"\nMéthode : {method}")
+
+    X = [data[key][method] for key in data if method in data[key]]
+    y = [data[key]["class"] for key in data if method in data[key]]
+
+    mean_acc, std_acc, accs = validation_croisee_kmeans(
+        X, y, k=9, n_folds=5, max_iter=200, init="kmeans++", n_init=10
+    )
+
+    print(f"  Moyenne : {mean_acc*100:.2f}% ± {std_acc*100:.2f}%")
+    print(f"  Accuracies : {[f'{a*100:.2f}%' for a in accs]}")

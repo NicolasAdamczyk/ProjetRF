@@ -2,7 +2,6 @@ import numpy as np
 from collections import Counter
 from utils import distance_euclidienne
 
-
 def k_voisins_proches(X_train, y_train, x_test, k=3):
     """Renvoie les classes des k plus proches voisins du point x_test."""
     distances = []

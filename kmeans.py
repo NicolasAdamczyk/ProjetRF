@@ -113,3 +113,59 @@ def mapper_clusters_vers_classes(y_pred, y_true):
     for i in range(len(y_pred)):
         y_mapped[i] = mapping[y_pred[i]]
     return y_mapped, mapping
+
+# ============================
+# VALIDATION CROISÉE K-MEANS
+# ============================
+def validation_croisee_kmeans(X, y_true, k=9, n_folds=5, max_iter=100, init="kmeans++", n_init=10):
+    """
+    Validation croisée K-Means.
+    Retourne : mean_accuracy, std_accuracy, accuracies_par_fold
+    """
+    X = np.array(X)
+    y_true = np.array(y_true)
+
+    indices = np.arange(len(X))
+    np.random.shuffle(indices)
+
+    fold_size = len(indices) // n_folds
+    accuracies = []
+
+    for fold in range(n_folds):
+        print(f"\nFold {fold+1}/{n_folds}")
+
+        # Séparation train / test par indices
+        test_idx = indices[fold * fold_size : (fold + 1) * fold_size]
+        train_idx = np.setdiff1d(indices, test_idx)
+
+        X_train, X_test = X[train_idx], X[test_idx]
+        y_train, y_test = y_true[train_idx], y_true[test_idx]
+
+        # --- 1. Entraînement K-Means sur TRAIN ---
+        y_train_pred, centroids, _ = kmeans(
+            X_train,
+            k=k,
+            max_iter=max_iter,
+            init=init,
+            n_init=n_init
+        )
+
+        # --- 2. Mapper clusters -> classes ---
+        _, mapping = mapper_clusters_vers_classes(y_train_pred, y_train)
+
+        # --- 3. Prédictions sur TEST ---
+        y_test_pred = []
+        for x in X_test:
+            dists = [np.linalg.norm(x - c) for c in centroids]
+            cluster = np.argmin(dists)
+            y_test_pred.append(mapping.get(cluster, -1))  # sécurité
+
+        y_test_pred = np.array(y_test_pred)
+
+        # --- 4. Accuracy du fold ---
+        acc = np.mean(y_test_pred == y_test)
+        accuracies.append(acc)
+
+        print(f"  Accuracy : {acc*100:.2f}%")
+
+    return np.mean(accuracies), np.std(accuracies), accuracies
