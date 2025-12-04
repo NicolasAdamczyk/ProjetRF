@@ -1,0 +1,1029 @@
+Lecture terminée.
+Nombre total d'images : 99
+
+==================================================
+TEST KNN SIMPLE SUR SPLIT FIXE
+==================================================
+
+Méthode : E34
+Échantillons de test : [2, 5, 8]
+Accuracy : 51.85%
+
+Matrice de Confusion :
+
+KNN - Matrice de Confusion (E34) :
+
+          1     2     3     4     5     6     7     8     9 | Total
+-------------------------------------------------------------------
+  1 |     1     1     0     0     0     0     0     1     0 | 3
+  2 |     0     1     0     0     1     1     0     0     0 | 3
+  3 |     0     0     3     0     0     0     0     0     0 | 3
+  4 |     0     0     0     1     0     0     2     0     0 | 3
+  5 |     0     0     0     0     2     0     0     1     0 | 3
+  6 |     0     0     0     1     0     2     0     0     0 | 3
+  7 |     0     1     1     0     0     0     1     0     0 | 3
+  8 |     0     0     0     0     0     0     0     3     0 | 3
+  9 |     1     1     0     0     0     1     0     0     0 | 3
+-------------------------------------------------------------------
+Tot |     2     4     4     2     3     4     3     5     0 | 27
+
+Rapport de classification :
+
+              precision    recall  f1-score   support
+
+           1       0.50      0.33      0.40         3
+           2       0.25      0.33      0.29         3
+           3       0.75      1.00      0.86         3
+           4       0.50      0.33      0.40         3
+           5       0.67      0.67      0.67         3
+           6       0.50      0.67      0.57         3
+           7       0.33      0.33      0.33         3
+           8       0.60      1.00      0.75         3
+           9       0.00      0.00      0.00         3
+
+    accuracy                           0.52        27
+   macro avg       0.46      0.52      0.47        27
+weighted avg       0.46      0.52      0.47        27
+
+
+Méthode : GFD
+Échantillons de test : [2, 5, 8]
+Accuracy : 100.00%
+
+Matrice de Confusion :
+
+KNN - Matrice de Confusion (GFD) :
+
+          1     2     3     4     5     6     7     8     9 | Total
+-------------------------------------------------------------------
+  1 |     3     0     0     0     0     0     0     0     0 | 3
+  2 |     0     3     0     0     0     0     0     0     0 | 3
+  3 |     0     0     3     0     0     0     0     0     0 | 3
+  4 |     0     0     0     3     0     0     0     0     0 | 3
+  5 |     0     0     0     0     3     0     0     0     0 | 3
+  6 |     0     0     0     0     0     3     0     0     0 | 3
+  7 |     0     0     0     0     0     0     3     0     0 | 3
+  8 |     0     0     0     0     0     0     0     3     0 | 3
+  9 |     0     0     0     0     0     0     0     0     3 | 3
+-------------------------------------------------------------------
+Tot |     3     3     3     3     3     3     3     3     3 | 27
+
+Rapport de classification :
+
+              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00         3
+           2       1.00      1.00      1.00         3
+           3       1.00      1.00      1.00         3
+           4       1.00      1.00      1.00         3
+           5       1.00      1.00      1.00         3
+           6       1.00      1.00      1.00         3
+           7       1.00      1.00      1.00         3
+           8       1.00      1.00      1.00         3
+           9       1.00      1.00      1.00         3
+
+    accuracy                           1.00        27
+   macro avg       1.00      1.00      1.00        27
+weighted avg       1.00      1.00      1.00        27
+
+
+Méthode : SA
+Échantillons de test : [2, 5, 8]
+Accuracy : 70.37%
+
+Matrice de Confusion :
+
+KNN - Matrice de Confusion (SA) :
+
+          1     2     3     4     5     6     7     8     9 | Total
+-------------------------------------------------------------------
+  1 |     3     0     0     0     0     0     0     0     0 | 3
+  2 |     2     1     0     0     0     0     0     0     0 | 3
+  3 |     0     0     3     0     0     0     0     0     0 | 3
+  4 |     0     0     0     3     0     0     0     0     0 | 3
+  5 |     0     0     0     0     3     0     0     0     0 | 3
+  6 |     0     0     0     0     0     3     0     0     0 | 3
+  7 |     0     0     0     0     0     0     1     2     0 | 3
+  8 |     0     0     0     0     1     0     0     2     0 | 3
+  9 |     0     1     0     0     1     0     0     1     0 | 3
+-------------------------------------------------------------------
+Tot |     5     2     3     3     5     3     1     5     0 | 27
+
+Rapport de classification :
+
+              precision    recall  f1-score   support
+
+           1       0.60      1.00      0.75         3
+           2       0.50      0.33      0.40         3
+           3       1.00      1.00      1.00         3
+           4       1.00      1.00      1.00         3
+           5       0.60      1.00      0.75         3
+           6       1.00      1.00      1.00         3
+           7       1.00      0.33      0.50         3
+           8       0.40      0.67      0.50         3
+           9       0.00      0.00      0.00         3
+
+    accuracy                           0.70        27
+   macro avg       0.68      0.70      0.66        27
+weighted avg       0.68      0.70      0.66        27
+
+
+Méthode : F0
+Échantillons de test : [2, 5, 8]
+Accuracy : 74.07%
+
+Matrice de Confusion :
+
+KNN - Matrice de Confusion (F0) :
+
+          1     2     3     4     5     6     7     8     9 | Total
+-------------------------------------------------------------------
+  1 |     1     0     0     0     0     1     0     1     0 | 3
+  2 |     0     3     0     0     0     0     0     0     0 | 3
+  3 |     0     0     3     0     0     0     0     0     0 | 3
+  4 |     0     0     0     3     0     0     0     0     0 | 3
+  5 |     0     0     1     0     1     1     0     0     0 | 3
+  6 |     0     0     0     0     0     2     1     0     0 | 3
+  7 |     0     0     0     0     1     0     1     1     0 | 3
+  8 |     0     0     0     0     0     0     0     3     0 | 3
+  9 |     0     0     0     0     0     0     0     0     3 | 3
+-------------------------------------------------------------------
+Tot |     1     3     4     3     2     4     2     5     3 | 27
+
+Rapport de classification :
+
+              precision    recall  f1-score   support
+
+           1       1.00      0.33      0.50         3
+           2       1.00      1.00      1.00         3
+           3       0.75      1.00      0.86         3
+           4       1.00      1.00      1.00         3
+           5       0.50      0.33      0.40         3
+           6       0.50      0.67      0.57         3
+           7       0.50      0.33      0.40         3
+           8       0.60      1.00      0.75         3
+           9       1.00      1.00      1.00         3
+
+    accuracy                           0.74        27
+   macro avg       0.76      0.74      0.72        27
+weighted avg       0.76      0.74      0.72        27
+
+
+Méthode : F2
+Échantillons de test : [2, 5, 8]
+Accuracy : 59.26%
+
+Matrice de Confusion :
+
+KNN - Matrice de Confusion (F2) :
+
+          1     2     3     4     5     6     7     8     9 | Total
+-------------------------------------------------------------------
+  1 |     1     0     0     0     0     0     1     1     0 | 3
+  2 |     0     3     0     0     0     0     0     0     0 | 3
+  3 |     0     0     1     0     2     0     0     0     0 | 3
+  4 |     0     0     0     3     0     0     0     0     0 | 3
+  5 |     0     0     0     0     2     0     0     1     0 | 3
+  6 |     1     0     0     0     0     0     0     2     0 | 3
+  7 |     0     0     1     0     0     0     1     1     0 | 3
+  8 |     0     0     0     0     0     1     0     2     0 | 3
+  9 |     0     0     0     0     0     0     0     0     3 | 3
+-------------------------------------------------------------------
+Tot |     2     3     2     3     4     1     2     7     3 | 27
+
+Rapport de classification :
+
+              precision    recall  f1-score   support
+
+           1       0.50      0.33      0.40         3
+           2       1.00      1.00      1.00         3
+           3       0.50      0.33      0.40         3
+           4       1.00      1.00      1.00         3
+           5       0.50      0.67      0.57         3
+           6       0.00      0.00      0.00         3
+           7       0.50      0.33      0.40         3
+           8       0.29      0.67      0.40         3
+           9       1.00      1.00      1.00         3
+
+    accuracy                           0.59        27
+   macro avg       0.59      0.59      0.57        27
+weighted avg       0.59      0.59      0.57        27
+
+
+==================================================
+TEST KNN AVEC VALIDATION CROISEE
+==================================================
+
+Méthode : E34
+Fold 1/5 – Accuracy : 68.42%
+Fold 2/5 – Accuracy : 52.63%
+Fold 3/5 – Accuracy : 73.68%
+Fold 4/5 – Accuracy : 68.42%
+Fold 5/5 – Accuracy : 73.68%
+  k=1, Moyenne : 67.37% ± 7.74%
+  Accuracies par fold : ['68.42%', '52.63%', '73.68%', '68.42%', '73.68%']
+Fold 1/5 – Accuracy : 57.89%
+Fold 2/5 – Accuracy : 63.16%
+Fold 3/5 – Accuracy : 52.63%
+Fold 4/5 – Accuracy : 57.89%
+Fold 5/5 – Accuracy : 63.16%
+  k=3, Moyenne : 58.95% ± 3.94%
+  Accuracies par fold : ['57.89%', '63.16%', '52.63%', '57.89%', '63.16%']
+Fold 1/5 – Accuracy : 47.37%
+Fold 2/5 – Accuracy : 47.37%
+Fold 3/5 – Accuracy : 63.16%
+Fold 4/5 – Accuracy : 57.89%
+Fold 5/5 – Accuracy : 68.42%
+  k=5, Moyenne : 56.84% ± 8.42%
+  Accuracies par fold : ['47.37%', '47.37%', '63.16%', '57.89%', '68.42%']
+Fold 1/5 – Accuracy : 47.37%
+Fold 2/5 – Accuracy : 31.58%
+Fold 3/5 – Accuracy : 52.63%
+Fold 4/5 – Accuracy : 89.47%
+Fold 5/5 – Accuracy : 57.89%
+  k=7, Moyenne : 55.79% ± 19.01%
+  Accuracies par fold : ['47.37%', '31.58%', '52.63%', '89.47%', '57.89%']
+
+Méthode : GFD
+Fold 1/5 – Accuracy : 100.00%
+Fold 2/5 – Accuracy : 94.74%
+Fold 3/5 – Accuracy : 100.00%
+Fold 4/5 – Accuracy : 100.00%
+Fold 5/5 – Accuracy : 100.00%
+  k=1, Moyenne : 98.95% ± 2.11%
+  Accuracies par fold : ['100.00%', '94.74%', '100.00%', '100.00%', '100.00%']
+Fold 1/5 – Accuracy : 100.00%
+Fold 2/5 – Accuracy : 94.74%
+Fold 3/5 – Accuracy : 100.00%
+Fold 4/5 – Accuracy : 100.00%
+Fold 5/5 – Accuracy : 100.00%
+  k=3, Moyenne : 98.95% ± 2.11%
+  Accuracies par fold : ['100.00%', '94.74%', '100.00%', '100.00%', '100.00%']
+Fold 1/5 – Accuracy : 100.00%
+Fold 2/5 – Accuracy : 100.00%
+Fold 3/5 – Accuracy : 94.74%
+Fold 4/5 – Accuracy : 100.00%
+Fold 5/5 – Accuracy : 89.47%
+  k=5, Moyenne : 96.84% ± 4.21%
+  Accuracies par fold : ['100.00%', '100.00%', '94.74%', '100.00%', '89.47%']
+Fold 1/5 – Accuracy : 94.74%
+Fold 2/5 – Accuracy : 100.00%
+Fold 3/5 – Accuracy : 100.00%
+Fold 4/5 – Accuracy : 84.21%
+Fold 5/5 – Accuracy : 94.74%
+  k=7, Moyenne : 94.74% ± 5.77%
+  Accuracies par fold : ['94.74%', '100.00%', '100.00%', '84.21%', '94.74%']
+
+Méthode : SA
+Fold 1/5 – Accuracy : 68.42%
+Fold 2/5 – Accuracy : 73.68%
+Fold 3/5 – Accuracy : 57.89%
+Fold 4/5 – Accuracy : 63.16%
+Fold 5/5 – Accuracy : 73.68%
+  k=1, Moyenne : 67.37% ± 6.14%
+  Accuracies par fold : ['68.42%', '73.68%', '57.89%', '63.16%', '73.68%']
+Fold 1/5 – Accuracy : 63.16%
+Fold 2/5 – Accuracy : 73.68%
+Fold 3/5 – Accuracy : 57.89%
+Fold 4/5 – Accuracy : 68.42%
+Fold 5/5 – Accuracy : 68.42%
+  k=3, Moyenne : 66.32% ± 5.37%
+  Accuracies par fold : ['63.16%', '73.68%', '57.89%', '68.42%', '68.42%']
+Fold 1/5 – Accuracy : 36.84%
+Fold 2/5 – Accuracy : 63.16%
+Fold 3/5 – Accuracy : 52.63%
+Fold 4/5 – Accuracy : 73.68%
+Fold 5/5 – Accuracy : 63.16%
+  k=5, Moyenne : 57.89% ± 12.45%
+  Accuracies par fold : ['36.84%', '63.16%', '52.63%', '73.68%', '63.16%']
+Fold 1/5 – Accuracy : 36.84%
+Fold 2/5 – Accuracy : 36.84%
+Fold 3/5 – Accuracy : 63.16%
+Fold 4/5 – Accuracy : 52.63%
+Fold 5/5 – Accuracy : 63.16%
+  k=7, Moyenne : 50.53% ± 11.82%
+  Accuracies par fold : ['36.84%', '36.84%', '63.16%', '52.63%', '63.16%']
+
+Méthode : F0
+Fold 1/5 – Accuracy : 78.95%
+Fold 2/5 – Accuracy : 89.47%
+Fold 3/5 – Accuracy : 84.21%
+Fold 4/5 – Accuracy : 89.47%
+Fold 5/5 – Accuracy : 73.68%
+  k=1, Moyenne : 83.16% ± 6.14%
+  Accuracies par fold : ['78.95%', '89.47%', '84.21%', '89.47%', '73.68%']
+Fold 1/5 – Accuracy : 84.21%
+Fold 2/5 – Accuracy : 78.95%
+Fold 3/5 – Accuracy : 68.42%
+Fold 4/5 – Accuracy : 78.95%
+Fold 5/5 – Accuracy : 73.68%
+  k=3, Moyenne : 76.84% ± 5.37%
+  Accuracies par fold : ['84.21%', '78.95%', '68.42%', '78.95%', '73.68%']
+Fold 1/5 – Accuracy : 57.89%
+Fold 2/5 – Accuracy : 73.68%
+Fold 3/5 – Accuracy : 78.95%
+Fold 4/5 – Accuracy : 73.68%
+Fold 5/5 – Accuracy : 63.16%
+  k=5, Moyenne : 69.47% ± 7.74%
+  Accuracies par fold : ['57.89%', '73.68%', '78.95%', '73.68%', '63.16%']
+Fold 1/5 – Accuracy : 89.47%
+Fold 2/5 – Accuracy : 68.42%
+Fold 3/5 – Accuracy : 78.95%
+Fold 4/5 – Accuracy : 52.63%
+Fold 5/5 – Accuracy : 57.89%
+  k=7, Moyenne : 69.47% ± 13.48%
+  Accuracies par fold : ['89.47%', '68.42%', '78.95%', '52.63%', '57.89%']
+
+Méthode : F2
+Fold 1/5 – Accuracy : 73.68%
+Fold 2/5 – Accuracy : 47.37%
+Fold 3/5 – Accuracy : 73.68%
+Fold 4/5 – Accuracy : 73.68%
+Fold 5/5 – Accuracy : 73.68%
+  k=1, Moyenne : 68.42% ± 10.53%
+  Accuracies par fold : ['73.68%', '47.37%', '73.68%', '73.68%', '73.68%']
+Fold 1/5 – Accuracy : 68.42%
+Fold 2/5 – Accuracy : 63.16%
+Fold 3/5 – Accuracy : 57.89%
+Fold 4/5 – Accuracy : 52.63%
+Fold 5/5 – Accuracy : 63.16%
+  k=3, Moyenne : 61.05% ± 5.37%
+  Accuracies par fold : ['68.42%', '63.16%', '57.89%', '52.63%', '63.16%']
+Fold 1/5 – Accuracy : 63.16%
+Fold 2/5 – Accuracy : 47.37%
+Fold 3/5 – Accuracy : 42.11%
+Fold 4/5 – Accuracy : 52.63%
+Fold 5/5 – Accuracy : 63.16%
+  k=5, Moyenne : 53.68% ± 8.42%
+  Accuracies par fold : ['63.16%', '47.37%', '42.11%', '52.63%', '63.16%']
+Fold 1/5 – Accuracy : 52.63%
+Fold 2/5 – Accuracy : 42.11%
+Fold 3/5 – Accuracy : 47.37%
+Fold 4/5 – Accuracy : 52.63%
+Fold 5/5 – Accuracy : 68.42%
+  k=7, Moyenne : 52.63% ± 8.81%
+  Accuracies par fold : ['52.63%', '42.11%', '47.37%', '52.63%', '68.42%']
+
+==================================================
+TEST K-MEANS
+==================================================
+
+Méthode : E34
+Inertie: 6.72, Pureté: 47.47%, Accuracy: 47.47%
+
+K-Means – Matrice de Confusion (E34) :
+
+          1     2     3     4     5     6     7     8     9 | Total
+-------------------------------------------------------------------
+  1 |     2     0     0     0     8     1     0     0     0 | 11
+  2 |     1     0     0     0     6     4     0     0     0 | 11
+  3 |     1     0    10     0     0     0     0     0     0 | 11
+  4 |     0     0     0     7     0     4     0     0     0 | 11
+  5 |     0     0     0     0    11     0     0     0     0 | 11
+  6 |     0     0     0     0     0    11     0     0     0 | 11
+  7 |     1     0     2     0     1     1     6     0     0 | 11
+  8 |     0     0     0     0     9     2     0     0     0 | 11
+  9 |     2     0     1     0     7     1     0     0     0 | 11
+-------------------------------------------------------------------
+Tot |     7     0    13     7    42    24     6     0     0 | 99
+              precision    recall  f1-score   support
+
+           1       0.29      0.18      0.22        11
+           2       0.00      0.00      0.00        11
+           3       0.77      0.91      0.83        11
+           4       1.00      0.64      0.78        11
+           5       0.26      1.00      0.42        11
+           6       0.46      1.00      0.63        11
+           7       1.00      0.55      0.71        11
+           8       0.00      0.00      0.00        11
+           9       0.00      0.00      0.00        11
+
+    accuracy                           0.47        99
+   macro avg       0.42      0.47      0.40        99
+weighted avg       0.42      0.47      0.40        99
+
+
+Méthode : GFD
+Inertie: 3.36, Pureté: 85.86%, Accuracy: 85.86%
+
+K-Means – Matrice de Confusion (GFD) :
+
+          1     2     3     4     5     6     7     8     9 | Total
+-------------------------------------------------------------------
+  1 |     9     0     0     0     0     0     2     0     0 | 11
+  2 |     0    11     0     0     0     0     0     0     0 | 11
+  3 |     0     0    11     0     0     0     0     0     0 | 11
+  4 |     0     0     0    11     0     0     0     0     0 | 11
+  5 |     0     0     1     0    10     0     0     0     0 | 11
+  6 |     0     0     0     0     0    11     0     0     0 | 11
+  7 |     0     0     0     0     0     0    11     0     0 | 11
+  8 |     0     0    11     0     0     0     0     0     0 | 11
+  9 |     0     0     0     0     0     0     0     0    11 | 11
+-------------------------------------------------------------------
+Tot |     9    11    23    11    10    11    13     0    11 | 99
+              precision    recall  f1-score   support
+
+           1       1.00      0.82      0.90        11
+           2       1.00      1.00      1.00        11
+           3       0.48      1.00      0.65        11
+           4       1.00      1.00      1.00        11
+           5       1.00      0.91      0.95        11
+           6       1.00      1.00      1.00        11
+           7       0.85      1.00      0.92        11
+           8       0.00      0.00      0.00        11
+           9       1.00      1.00      1.00        11
+
+    accuracy                           0.86        99
+   macro avg       0.81      0.86      0.82        99
+weighted avg       0.81      0.86      0.82        99
+
+
+Méthode : SA
+Inertie: 0.07, Pureté: 38.38%, Accuracy: 38.38%
+
+K-Means – Matrice de Confusion (SA) :
+
+          1     2     3     4     5     6     7     8     9 | Total
+-------------------------------------------------------------------
+  1 |     0     0     1     0    10     0     0     0     0 | 11
+  2 |     0     0     1     1     9     0     0     0     0 | 11
+  3 |     0     0    11     0     0     0     0     0     0 | 11
+  4 |     0     0     0    10     1     0     0     0     0 | 11
+  5 |     0     0     0     0    11     0     0     0     0 | 11
+  6 |     0     0    11     0     0     0     0     0     0 | 11
+  7 |     0     0     5     0     6     0     0     0     0 | 11
+  8 |     0     0     1     0    10     0     0     0     0 | 11
+  9 |     0     0     0     0     5     0     0     0     6 | 11
+-------------------------------------------------------------------
+Tot |     0     0    30    11    52     0     0     0     6 | 99
+              precision    recall  f1-score   support
+
+           1       0.00      0.00      0.00        11
+           2       0.00      0.00      0.00        11
+           3       0.37      1.00      0.54        11
+           4       0.91      0.91      0.91        11
+           5       0.21      1.00      0.35        11
+           6       0.00      0.00      0.00        11
+           7       0.00      0.00      0.00        11
+           8       0.00      0.00      0.00        11
+           9       1.00      0.55      0.71        11
+
+    accuracy                           0.38        99
+   macro avg       0.28      0.38      0.28        99
+weighted avg       0.28      0.38      0.28        99
+
+
+Méthode : F0
+Inertie: 2435504247400.57, Pureté: 61.62%, Accuracy: 61.62%
+
+K-Means – Matrice de Confusion (F0) :
+
+          1     2     3     4     5     6     7     8     9 | Total
+-------------------------------------------------------------------
+  1 |     5     2     0     0     0     0     0     4     0 | 11
+  2 |     0    11     0     0     0     0     0     0     0 | 11
+  3 |     0     0    10     0     1     0     0     0     0 | 11
+  4 |     0     0     0    11     0     0     0     0     0 | 11
+  5 |     0     0     3     0     6     0     0     2     0 | 11
+  6 |     5     0     0     0     0     0     0     6     0 | 11
+  7 |     5     1     0     0     1     0     0     4     0 | 11
+  8 |     4     0     0     0     0     0     0     7     0 | 11
+  9 |     0     0     0     0     0     0     0     0    11 | 11
+-------------------------------------------------------------------
+Tot |    19    14    13    11     8     0     0    23    11 | 99
+              precision    recall  f1-score   support
+
+           1       0.26      0.45      0.33        11
+           2       0.79      1.00      0.88        11
+           3       0.77      0.91      0.83        11
+           4       1.00      1.00      1.00        11
+           5       0.75      0.55      0.63        11
+           6       0.00      0.00      0.00        11
+           7       0.00      0.00      0.00        11
+           8       0.30      0.64      0.41        11
+           9       1.00      1.00      1.00        11
+
+    accuracy                           0.62        99
+   macro avg       0.54      0.62      0.57        99
+weighted avg       0.54      0.62      0.57        99
+
+
+Méthode : F2
+Inertie: 213505915.27, Pureté: 61.62%, Accuracy: 61.62%
+
+K-Means – Matrice de Confusion (F2) :
+
+          1     2     3     4     5     6     7     8     9 | Total
+-------------------------------------------------------------------
+  1 |     0     2     0     0     0     2     3     4     0 | 11
+  2 |     0    11     0     0     0     0     0     0     0 | 11
+  3 |     0     0    10     0     1     0     0     0     0 | 11
+  4 |     0     3     0     8     0     0     0     0     0 | 11
+  5 |     0     0     5     0     4     0     0     2     0 | 11
+  6 |     0     0     0     0     0     7     2     2     0 | 11
+  7 |     0     0     1     0     0     3     4     3     0 | 11
+  8 |     0     0     0     0     0     5     0     6     0 | 11
+  9 |     0     0     0     0     0     0     0     0    11 | 11
+-------------------------------------------------------------------
+Tot |     0    16    16     8     5    17     9    17    11 | 99
+              precision    recall  f1-score   support
+
+           1       0.00      0.00      0.00        11
+           2       0.69      1.00      0.81        11
+           3       0.62      0.91      0.74        11
+           4       1.00      0.73      0.84        11
+           5       0.80      0.36      0.50        11
+           6       0.41      0.64      0.50        11
+           7       0.44      0.36      0.40        11
+           8       0.35      0.55      0.43        11
+           9       1.00      1.00      1.00        11
+
+    accuracy                           0.62        99
+   macro avg       0.59      0.62      0.58        99
+weighted avg       0.59      0.62      0.58        99
+
+
+==================================================
+VALIDATION CROISÉE K-MEANS
+==================================================
+
+Méthode : E34
+
+Fold 1/5
+  Accuracy : 42.11%
+
+Fold 2/5
+  Accuracy : 52.63%
+
+Fold 3/5
+  Accuracy : 47.37%
+
+Fold 4/5
+  Accuracy : 36.84%
+
+Fold 5/5
+  Accuracy : 31.58%
+  Moyenne : 42.11% ± 7.44%
+  Accuracies : ['42.11%', '52.63%', '47.37%', '36.84%', '31.58%']
+
+Méthode : GFD
+
+Fold 1/5
+  Accuracy : 89.47%
+
+Fold 2/5
+  Accuracy : 89.47%
+
+Fold 3/5
+  Accuracy : 84.21%
+
+Fold 4/5
+  Accuracy : 78.95%
+
+Fold 5/5
+  Accuracy : 68.42%
+  Moyenne : 82.11% ± 7.88%
+  Accuracies : ['89.47%', '89.47%', '84.21%', '78.95%', '68.42%']
+
+Méthode : SA
+
+Fold 1/5
+  Accuracy : 31.58%
+
+Fold 2/5
+  Accuracy : 26.32%
+
+Fold 3/5
+  Accuracy : 31.58%
+
+Fold 4/5
+  Accuracy : 10.53%
+
+Fold 5/5
+  Accuracy : 42.11%
+  Moyenne : 28.42% ± 10.31%
+  Accuracies : ['31.58%', '26.32%', '31.58%', '10.53%', '42.11%']
+
+Méthode : F0
+
+Fold 1/5
+  Accuracy : 63.16%
+
+Fold 2/5
+  Accuracy : 57.89%
+
+Fold 3/5
+  Accuracy : 63.16%
+
+Fold 4/5
+  Accuracy : 31.58%
+
+Fold 5/5
+  Accuracy : 47.37%
+  Moyenne : 52.63% ± 12.00%
+  Accuracies : ['63.16%', '57.89%', '63.16%', '31.58%', '47.37%']
+
+Méthode : F2
+
+Fold 1/5
+  Accuracy : 52.63%
+
+Fold 2/5
+  Accuracy : 84.21%
+
+Fold 3/5
+  Accuracy : 31.58%
+
+Fold 4/5
+  Accuracy : 68.42%
+
+Fold 5/5
+  Accuracy : 42.11%
+  Moyenne : 55.79% ± 18.71%
+  Accuracies : ['52.63%', '84.21%', '31.58%', '68.42%', '42.11%']
+
+
+==================================================
+METHODE DU COUDE
+==================================================
+
+Calcul pour différentes valeurs de k (GFD):
+  k= 2: Inertie=   13.23, Pureté=22.22%
+  k= 3: Inertie=    9.95, Pureté=33.33%
+  k= 4: Inertie=    7.38, Pureté=44.44%
+  k= 5: Inertie=    6.21, Pureté=55.56%
+  k= 6: Inertie=    4.78, Pureté=66.67%
+  k= 7: Inertie=    4.15, Pureté=76.77%
+  k= 8: Inertie=    4.06, Pureté=77.78%
+  k= 9: Inertie=    3.38, Pureté=84.85%
+  k=10: Inertie=    3.23, Pureté=85.86%
+  k=11: Inertie=    3.08, Pureté=97.98%
+  k=12: Inertie=    2.87, Pureté=86.87%
+  k=13: Inertie=    2.79, Pureté=84.85%
+  k=14: Inertie=    2.60, Pureté=84.85%
+  k=15: Inertie=    2.54, Pureté=92.93%
+
+Ratio d'amélioration de l'inertie:
+  k=2 -> k=3: 24.82%
+  k=3 -> k=4: 25.83%
+  k=4 -> k=5: 15.78%
+  k=5 -> k=6: 23.09%
+  k=6 -> k=7: 13.17%
+  k=7 -> k=8: 2.16%
+  k=8 -> k=9: 16.86%
+  k=9 -> k=10: 4.40%
+  k=10 -> k=11: 4.64%
+  k=11 -> k=12: 6.72%
+  k=12 -> k=13: 2.69%
+  k=13 -> k=14: 6.75%
+  k=14 -> k=15: 2.34%
+
+Nombre de clusters suggéré: 4
+(Basé sur la méthode du coude - point où l'amélioration ralentit)
+
+============================================================
+VALIDATION CROISEE COMPLETE (VOTE MAJORITAIRE) - 9 CLASSES
+============================================================
+
+==================================================
+FOLD 1/3
+Échantillons de test : [5, 6, 1]
+==================================================
+Taille du test : 27 échantillons
+
+Performances individuelles:
+  E34: 59.26%
+  GFD: 96.30%
+  SA : 44.44%
+  F0 : 77.78%
+  F2 : 74.07%
+
+Performances du vote majoritaire:
+  majoritaire_simple  : 88.89%
+  majoritaire_pondere : 92.59%
+  majoritaire_confiance: 92.59%
+
+==================================================
+FOLD 2/3
+Échantillons de test : [9, 10, 8]
+==================================================
+Taille du test : 27 échantillons
+
+Performances individuelles:
+  E34: 48.15%
+  GFD: 100.00%
+  SA : 48.15%
+  F0 : 66.67%
+  F2 : 51.85%
+
+Performances du vote majoritaire:
+  majoritaire_simple  : 85.19%
+  majoritaire_pondere : 92.59%
+  majoritaire_confiance: 100.00%
+
+==================================================
+FOLD 3/3
+Échantillons de test : [2, 4, 7, 3, 11]
+==================================================
+Taille du test : 45 échantillons
+
+Performances individuelles:
+  E34: 60.00%
+  GFD: 97.78%
+  SA : 48.89%
+  F0 : 68.89%
+  F2 : 62.22%
+
+Performances du vote majoritaire:
+  majoritaire_simple  : 88.89%
+  majoritaire_pondere : 91.11%
+  majoritaire_confiance: 97.78%
+
+RÉSUMÉ DE LA VALIDATION CROISÉE
+
+Moyennes des précisions individuelles:
+  E34: 55.80% (±5.42%)
+  GFD: 98.02% (±1.52%)
+  SA : 47.16% (±1.94%)
+  F0 : 71.11% (±4.80%)
+  F2 : 62.72% (±9.08%)
+
+Moyennes du vote majoritaire:
+  majoritaire_simple  : 87.65% (±1.75%)
+  majoritaire_pondere : 92.10% (±0.70%)
+  majoritaire_confiance: 96.79% (±3.10%)
+
+--------------------------------------------------
+Meilleure méthode individuelle: GFD (98.02%)
+Meilleur mode de vote: majoritaire_confiance (96.79%)
+Le vote majoritaire dégrade de 1.3%
+
+>>> Meilleur mode identifié : majoritaire_confiance
+
+MATRICE DE CONFUSION – MAJORITAIRE_CONFIANCE (9 classes)
+
+Matrice de Confusion :
+
+          1     2     3     4     5     6     7     8     9 | Total
+-------------------------------------------------------------------
+  1 |    11     0     0     0     0     0     0     0     0 | 11
+  2 |     0    11     0     0     0     0     0     0     0 | 11
+  3 |     0     0    11     0     0     0     0     0     0 | 11
+  4 |     0     0     0    11     0     0     0     0     0 | 11
+  5 |     0     0     0     0    10     0     0     1     0 | 11
+  6 |     0     0     0     0     0    11     0     0     0 | 11
+  7 |     0     0     0     0     0     1    10     0     0 | 11
+  8 |     0     0     0     0     1     0     0    10     0 | 11
+  9 |     0     0     0     0     0     0     0     0    11 | 11
+-------------------------------------------------------------------
+Tot |    11    11    11    11    11    12    10    11    11 | 99
+----------------------------------------
+
+RAPPORT DE CLASSIFICATION - 9 CLASSES
+              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00        11
+           2       1.00      1.00      1.00        11
+           3       1.00      1.00      1.00        11
+           4       1.00      1.00      1.00        11
+           5       0.91      0.91      0.91        11
+           6       0.92      1.00      0.96        11
+           7       1.00      0.91      0.95        11
+           8       0.91      0.91      0.91        11
+           9       1.00      1.00      1.00        11
+
+    accuracy                           0.97        99
+   macro avg       0.97      0.97      0.97        99
+weighted avg       0.97      0.97      0.97        99
+
+
+============================================================
+SA SEUL – 9 CLASSES
+============================================================
+
+Matrice de Confusion :
+
+          1     2     3     4     5     6     7     8     9 | Total
+-------------------------------------------------------------------
+  1 |     7     1     0     0     1     1     0     1     0 | 11
+  2 |     7     1     0     1     2     0     0     0     0 | 11
+  3 |     0     0    10     0     0     1     0     0     0 | 11
+  4 |     0     0     0     8     0     0     1     2     0 | 11
+  5 |     1     0     0     0     5     0     0     5     0 | 11
+  6 |     0     0     0     0     0    11     0     0     0 | 11
+  7 |     4     0     0     0     0     2     3     2     0 | 11
+  8 |     0     0     0     0     9     0     0     2     0 | 11
+  9 |     1     1     1     2     3     0     0     3     0 | 11
+-------------------------------------------------------------------
+Tot |    20     3    11    11    20    15     4    15     0 | 99
+
+Rapport de classification :
+              precision    recall  f1-score   support
+
+           1       0.35      0.64      0.45        11
+           2       0.33      0.09      0.14        11
+           3       0.91      0.91      0.91        11
+           4       0.73      0.73      0.73        11
+           5       0.25      0.45      0.32        11
+           6       0.73      1.00      0.85        11
+           7       0.75      0.27      0.40        11
+           8       0.13      0.18      0.15        11
+           9       0.00      0.00      0.00        11
+
+    accuracy                           0.47        99
+   macro avg       0.47      0.47      0.44        99
+weighted avg       0.47      0.47      0.44        99
+
+
+============================================================
+VALIDATION CROISEE COMPLETE – 5 PREMIÈRES CLASSES
+============================================================
+Nombre d’images après filtrage : 55
+
+==================================================
+FOLD 1/3
+Échantillons de test : [5, 1, 9]
+==================================================
+Taille du test : 15 échantillons
+
+Performances individuelles:
+  E34: 73.33%
+  GFD: 93.33%
+  SA : 73.33%
+  F0 : 93.33%
+  F2 : 86.67%
+
+Performances du vote majoritaire:
+  majoritaire_simple  : 100.00%
+  majoritaire_pondere : 100.00%
+  majoritaire_confiance: 100.00%
+
+==================================================
+FOLD 2/3
+Échantillons de test : [8, 3, 7]
+==================================================
+Taille du test : 15 échantillons
+
+Performances individuelles:
+  E34: 86.67%
+  GFD: 100.00%
+  SA : 73.33%
+  F0 : 86.67%
+  F2 : 86.67%
+
+Performances du vote majoritaire:
+  majoritaire_simple  : 100.00%
+  majoritaire_pondere : 100.00%
+  majoritaire_confiance: 100.00%
+
+==================================================
+FOLD 3/3
+Échantillons de test : [10, 2, 11, 4, 6]
+==================================================
+Taille du test : 25 échantillons
+
+Performances individuelles:
+  E34: 92.00%
+  GFD: 100.00%
+  SA : 64.00%
+  F0 : 76.00%
+  F2 : 76.00%
+
+Performances du vote majoritaire:
+  majoritaire_simple  : 100.00%
+  majoritaire_pondere : 100.00%
+  majoritaire_confiance: 100.00%
+
+RÉSUMÉ DE LA VALIDATION CROISÉE
+
+Moyennes des précisions individuelles:
+  E34: 84.00% (±7.85%)
+  GFD: 97.78% (±3.14%)
+  SA : 70.22% (±4.40%)
+  F0 : 85.33% (±7.14%)
+  F2 : 83.11% (±5.03%)
+
+Moyennes du vote majoritaire:
+  majoritaire_simple  : 100.00% (±0.00%)
+  majoritaire_pondere : 100.00% (±0.00%)
+  majoritaire_confiance: 100.00% (±0.00%)
+
+--------------------------------------------------
+Meilleure méthode individuelle: GFD (97.78%)
+Meilleur mode de vote: majoritaire_simple (100.00%)
+Le vote majoritaire améliore de 2.3%
+MATRICE DE CONFUSION – MAJORITAIRE_SIMPLE (5 classes)
+
+Matrice de Confusion :
+
+          1     2     3     4     5 | Total
+-------------------------------------------
+  1 |    11     0     0     0     0 | 11
+  2 |     0    11     0     0     0 | 11
+  3 |     0     0    11     0     0 | 11
+  4 |     0     0     0    11     0 | 11
+  5 |     0     0     0     0    11 | 11
+-------------------------------------------
+Tot |    11    11    11    11    11 | 55
+----------------------------------------
+
+RAPPORT DE CLASSIFICATION – 5 CLASSES
+              precision    recall  f1-score   support
+
+           1       1.00      1.00      1.00        11
+           2       1.00      1.00      1.00        11
+           3       1.00      1.00      1.00        11
+           4       1.00      1.00      1.00        11
+           5       1.00      1.00      1.00        11
+
+    accuracy                           1.00        55
+   macro avg       1.00      1.00      1.00        55
+weighted avg       1.00      1.00      1.00        55
+
+
+============================================================
+SA SEUL – 5 CLASSES
+============================================================
+
+Matrice de Confusion :
+
+          1     2     3     4     5 | Total
+-------------------------------------------
+  1 |     7     1     1     0     2 | 11
+  2 |     8     1     0     1     1 | 11
+  3 |     0     0    11     0     0 | 11
+  4 |     0     0     1     9     1 | 11
+  5 |     1     0     0     0    10 | 11
+-------------------------------------------
+Tot |    16     2    13    10    14 | 55
+----------------------------------------
+
+Rapport de classification :
+              precision    recall  f1-score   support
+
+           1       0.44      0.64      0.52        11
+           2       0.50      0.09      0.15        11
+           3       0.85      1.00      0.92        11
+           4       0.90      0.82      0.86        11
+           5       0.71      0.91      0.80        11
+
+    accuracy                           0.69        55
+   macro avg       0.68      0.69      0.65        55
+weighted avg       0.68      0.69      0.65        55
+
+
+============================================================
+TABLEAU COMPARATIF FINAL
+============================================================
+
+Méthode / Mode                  9 classes       5 classes
+------------------------------------------------------------
+E34                                55.80%          84.00%
+GFD                                98.02%          97.78%
+SA                                 47.16%          70.22%
+F0                                 71.11%          85.33%
+F2                                 62.72%          83.11%
+------------------------------------------------------------
+majoritaire_simple                 87.65%         100.00%
+majoritaire_pondere                92.10%         100.00%
+majoritaire_confiance              96.79%         100.00%
+
+============================================================
+FIN DES TESTS
+============================================================
+
+
+============================================================
+ANALYSE DES CLASSES PROBLÉMATIQUES
+============================================================
+
+Classes difficiles (rappel < 90%) avec vote majoritaire (9 classes):
+
+Comparaison rappel SA vs Vote (9 classes):
+  Classe 1: SA=63.6% → Vote=100.0% (+36.4%)
+  Classe 2: SA=9.1% → Vote=100.0% (+90.9%)
+  Classe 3: SA=90.9% → Vote=100.0% (+9.1%)
+  Classe 4: SA=72.7% → Vote=100.0% (+27.3%)
+  Classe 5: SA=45.5% → Vote=90.9% (+45.5%)
+  Classe 6: SA=100.0% → Vote=100.0% (+0.0%)
+  Classe 7: SA=27.3% → Vote=90.9% (+63.6%)
+  Classe 8: SA=18.2% → Vote=90.9% (+72.7%)
+  Classe 9: SA=0.0% → Vote=100.0% (+100.0%)
+
+
+============================================================
+ANALYSE DE L'IMPORTANCE DES MÉTHODES
+============================================================
+
+Baseline (toutes méthodes): 100.00%
+
+Impact de l'exclusion de chaque méthode:
+  Sans E34: 100.00% (impact: +0.00%)
+  Sans GFD: 88.89% (impact: +11.11%)
+  Sans SA : 96.30% (impact: +3.70%)
+  Sans F0 : 96.30% (impact: +3.70%)
+  Sans F2 : 96.30% (impact: +3.70%)
+
+============================================================
+FIN DE L'ANALYSE
+============================================================

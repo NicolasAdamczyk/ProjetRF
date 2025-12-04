@@ -3,8 +3,18 @@ import numpy as np
 
 def charger_donnees(base_folder, classes, samples, methods):
     """
-    Charge toutes les données depuis les fichiers .MET organisés par méthode.
-    Retourne un dictionnaire : data[sXXnYYY] = {"class": int, "E34": vecteur, ...}
+    organisation des fichiers par méthode dans des sous-dossiers correspondant aux noms de méthodes, et chaque fichier doit être nommé selon le format sXXnYYY.METHOD.
+
+    Args:
+        base_folder: dossier racine contenant les sous-dossiers par méthode
+        classes: liste ou range des numéros de classes (1 à 9)
+        samples: liste ou range des numéros d'échantillons par classe
+        methods: liste des méthodes à charger ["E34", "GFD",..]
+
+    Returns:
+        data: dictionnaire où chaque clé est un identifiant d'image
+              (ex: "s01n001") et chaque valeur est un dictionnaire :
+              {"class": numéro de classe, "E34": vecteur numpy, ...}
     """
     data = {}
 
@@ -20,8 +30,8 @@ def charger_donnees(base_folder, classes, samples, methods):
                 if os.path.exists(filename):
                     try:
                         with open(filename, "r") as f:
-                            values = f.read().strip().split() # splitlines
-                            data[key][method] = np.array(values, dtype=float)
+                            values = f.read().strip().split() # obtenir les valeurs separees
+                            data[key][method] = np.array(values, dtype=float) # conversion en numpy array de float
                     except Exception as e:
                         print(f"Erreur lecture {filename} : {e}")
                 else:
