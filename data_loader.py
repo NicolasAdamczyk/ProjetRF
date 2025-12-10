@@ -13,7 +13,7 @@ def charger_donnees(base_folder, classes, samples, methods):
 
     Returns:
         data: dictionnaire où chaque clé est un identifiant d'image
-              (ex: "s01n001") et chaque valeur est un dictionnaire :
+              "s01n001" par exemple et chaque valeur est un dictionnaire :
               {"class": numéro de classe, "E34": vecteur numpy, ...}
     """
     data = {}
