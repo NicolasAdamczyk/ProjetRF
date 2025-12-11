@@ -1,77 +1,88 @@
-import numpy as np
-from utils import separer_train_test_par_echantillon # Utilise la version all_methods=True
-from knn import predire_classe_avec_confiance # Utilise de la version de prédication avec confiance
+# import des modules requis
+import numpy as np # librairie pour les operations numeriques
+# import de la fct de separation, suppose etre dans utils.py
+from utils import separer_train_test_par_echantillon 
+# import de la fct de prediction knn avec confiance, suppose etre dans knn.py
+from knn import predire_classe_avec_confiance 
 
-methods = ["E34", "GFD", "SA", "F0", "F2"] # Pour les itérations sur les méthodes disponibles
+# liste des methodes (descripteurs) a evaluer/combiner
+methods = ["e34", "gfd", "sa", "f0", "f2"] 
 
 class VoteMajoritaire:
     """
-    Classifieur par vote majoritaire combinant plusieurs méthodes KNN.
+    classifieur par vote majoritaire combinant plusieurs methodes knn.
+    
 
-    Args:
-        k (int): nombre de voisins pour KNN.
-        weights (dict): poids de chaque méthode. Si None, poids = 1.0 pour toutes.
-        use_confidence (bool): si True, pondère le vote par la confiance des KNN.
+    args:
+        k (int): nb de voisins pour knn.
+        weights (dict): poids de chaque methode. si none, poids = 1.0 pour toutes.
+        use_confidence (bool): si true, pondere le vote par la confiance des knn. (n'est plus utilise directement, la confiance est integree dans 'majoritaire_confiance')
     """
 
     def __init__(self, k=5, weights=None, use_confidence=True):
         """
-        Constructeur initialisant le classifieur VoteMajoritaire.
+        constructeur initialisant le classifieur votemajoritaire.
         """
-        self.k = k
-        self.use_confidence = use_confidence
-        self.weights = weights if weights else {m: 1.0 for m in methods}
-        self.data_train = {} # stocke X_train et y_train par méthode
+        self.k = k # nb de voisins pour les knn sous-jacents
+        self.use_confidence = use_confidence # flag d'utilisation de la confiance (non directement utilise pour le moment)
+        # init des poids : utilises si le mode 'majoritaire_pondere' ou 'majoritaire_confiance' est choisi
+        self.weights = weights if weights else {m: 1.0 for m in methods} 
+        self.data_train = {} # stocke x_train et y_train par methode
 
     def entrainer(self, data_split, verbose=True):
         """
-        Stocke les données d'entraînement pour chaque méthode disponible.
+        stocke les donnees d'entrainement pour chaque methode disponible. (etape d'entrainement du classifieur d'ensemble)
 
-        Args:
-            data_split (dict): données séparées train/test pour chaque méthode.
-            verbose (bool): si True, affiche le nombre de méthodes entraînées.
+        args:
+            data_split (dict): donnees separees train/test pour chaque methode.
+            verbose (bool): si true, affiche le nb de methodes entrainees.
         """
-        self.data_train = {}
+        self.data_train = {} # reinit des donnees d'entrainement
         for method in methods:
             if method in data_split:
+                # stocke les donnees d'entrainement de la methode
                 self.data_train[method] = {
-                    'X': data_split[method]['X_train'],
+                    'x': data_split[method]['x_train'],
                     'y': data_split[method]['y_train']
                 }
         if verbose:
-            print(f"Entraînement terminé avec {len(self.data_train)} méthodes")
+            print(f"entrainement termine avec {len(self.data_train)} methodes")
 
     def predire_ensemble(self, data_split, mode="majoritaire_simple"):
         """
-        Prédit les classes pour l'ensemble test en combinant les votes des différentes méthodes.
+        predit les classes pour l'ensemble test en combinant les votes des differentes methodes.
 
-        Args:
-            data_split (dict): données séparées train/test.
-            mode (str): 3 stratégies de vote:
-                - "majoritaire_simple": un vote par méthode
-                - "majoritaire_pondere": vote pondéré par poids
-                - "majoritaire_confiance": vote pondéré par confiance et poids
-        Returns:
-            tuple: (np.ndarray: classes prédites finales, list: détails des votes pour chaque échantillon)
+        args:
+            data_split (dict): donnees separees train/test (utilise x_test).
+            mode (str): 3 strategies de vote:
+                - "majoritaire_simple": un vote par methode
+                - "majoritaire_pondere": vote pondere par poids predefinis (self.weights)
+                - "majoritaire_confiance": vote pondere par confiance knn et poids
+        returns:
+            tuple: (np.ndarray: classes predites finales, list: details des votes pour chaque echantillon)
         """
+        # recupere le nb d'echantillons test (en utilisant la premiere methode disponible comme ref)
         first_method = list(data_split.keys())[0]
-        n_test = len(data_split[first_method]['X_test'])
-        y_test = data_split[first_method]['y_test']
+        n_test = len(data_split[first_method]['x_test'])
+        y_test = data_split[first_method]['y_test'] # vrais labels test
         
         predictions_finales = []
         details_votes = []
         
+        # boucle sur chaque echantillon de test
         for i in range(n_test):
-            votes = {}
-            predictions_par_methode = {}
+            votes = {} # dict pour accumuler les votes (classe -> score/poids)
+            predictions_par_methode = {} # dict pour stocker les predictions de chaque methode
             
+            # boucle sur chaque methode
             for method in methods:
-                if method in self.data_train and len(self.data_train[method]['X']) > 0:
-                    x_test = data_split[method]['X_test'][i]
+                # verif si la methode est entrainee et si x_train n'est pas vide
+                if method in self.data_train and len(self.data_train[method]['x']) > 0:
+                    x_test = data_split[method]['x_test'][i] # vecteur test de la methode
                     
-                    # Prédiction KNN avec score de confiance
+                    # prediction knn avec score de confiance
                     classe, confiance = predire_classe_avec_confiance(
-                        self.data_train[method]['X'],
+                        self.data_train[method]['x'],
                         self.data_train[method]['y'],
                         x_test,
                         self.k
@@ -80,21 +91,22 @@ class VoteMajoritaire:
                     predictions_par_methode[method] = classe
                     
                     if classe not in votes:
-                        votes[classe] = 0
+                        votes[classe] = 0.0 # init vote avec 0.0 pour les scores flotants
                     
-                    # Accumulation des votes selon le mode choisi
+                    # accumulation des votes selon le mode choisi
                     if mode == 'majoritaire_simple':
-                        votes[classe] += 1
+                        votes[classe] += 1 # 1 vote par methode
                     elif mode == 'majoritaire_pondere':
-                        votes[classe] += self.weights[method]
+                        votes[classe] += self.weights[method] # vote = poids predefini
                     elif mode == 'majoritaire_confiance':
-                        votes[classe] += confiance * self.weights[method]
+                        # vote = confiance knn * poids predefini
+                        votes[classe] += confiance * self.weights[method] 
 
-            # Classe avec le maximum de votes
+            # decision finale: classe avec le maximum de votes/scores
             if votes:
-                classe_finale = max(votes, key=votes.get)
+                classe_finale = max(votes, key=votes.get) # cle (classe) avec la valeur (score) max
             else:
-                classe_finale = 1
+                classe_finale = 1 # valeur par defaut si aucun vote
             
             predictions_finales.append(classe_finale)
             details_votes.append({
@@ -108,37 +120,41 @@ class VoteMajoritaire:
 
 
 # ============================================================
-# ÉVALUATION DES DESCRIPTEURS INDIVIDUELS
+# evaluation des descripteurs individuels
 # ============================================================
 
 def evaluer_methodes_individuelles(data_split, k=5):
     """
-    Évalue chaque méthode individuellement avec KNN.
+    evalue chaque methode individuellement avec knn.
 
-    Args:
-        data_split (dict): données séparées train/test pour chaque méthode.
-        k (int): nombre de voisins KNN.
+    args:
+        data_split (dict): donnees separees train/test pour chaque methode.
+        k (int): nb de voisins knn.
 
-    Returns:
-        dict: résultats par méthode avec 'accuracy', 'y_pred' et 'y_test'.
+    returns:
+        dict: resultats par methode avec 'accuracy', 'y_pred' et 'y_test'.
     """
     resultats = {}
     
     for method in methods:
-        if method not in data_split or len(data_split[method]['X_train']) == 0:
+        # verif que la methode existe et que les donnees train ne sont pas vides
+        if method not in data_split or len(data_split[method]['x_train']) == 0:
             continue
             
-        X_train = data_split[method]['X_train']
+        x_train = data_split[method]['x_train']
         y_train = data_split[method]['y_train']
-        X_test = data_split[method]['X_test']
+        x_test = data_split[method]['x_test']
         y_test = data_split[method]['y_test']
         
         y_pred = []
-        for x in X_test:
-            pred, _ = predire_classe_avec_confiance(X_train, y_train, x, k)
+        # prediction de chaque echantillon test
+        for x in x_test:
+            # on utilise la fct de prediction avec confiance, mais on ne garde que la prediction (pred)
+            pred, _ = predire_classe_avec_confiance(x_train, y_train, x, k)
             y_pred.append(pred)
         
         y_pred = np.array(y_pred)
+        # calcul de l'accuracy
         accuracy = np.sum(y_pred == y_test) / len(y_test) if len(y_test) > 0 else 0
         
         resultats[method] = {
@@ -151,126 +167,129 @@ def evaluer_methodes_individuelles(data_split, k=5):
 
 def filtrer_donnees_classes(data, classes_a_garder):
     """
-    Filtre les données pour ne garder que certaines classes.
+    filtre les donnees pour ne garder que certaines classes.
 
-    Args:
-        data (dict): dictionnaire de données original.
-        classes_a_garder (list): classes à conserver.
+    args:
+        data (dict): dict de donnees original.
+        classes_a_garder (list): classes a conserver.
 
-    Returns:
-        dict: dictionnaire filtré.
+    returns:
+        dict: dict filtre.
     """
     data_filtre = {}
+    # parcours de tous les echantillons
     for key, value in data.items():
+        # ne garde que les echantillons dont la classe est dans la liste
         if value["class"] in classes_a_garder:
             data_filtre[key] = value
     return data_filtre
 
 def validation_croisee_complete(data, k=5, n_folds=3, n_classes=9):
     """
-    Effectue une validation croisée complète combinant toutes les méthodes et tous les modes de vote.
+    effectue une validation croisee complete combinant toutes les methodes et tous les modes de vote.
 
-    Args:
-        data (dict): données originales.
-        k (int): nombre de voisins KNN.
-        n_folds (int): nombre de plis (folds) pour la validation croisée.
-        n_classes (int): nombre de classes dans le dataset.
+    args:
+        data (dict): donnees originales.
+        k (int): nb de voisins knn.
+        n_folds (int): nb de plis (folds) pour la validation croisee.
+        n_classes (int): nb de classes dans le dataset.
 
-    Returns:
-        dict: dictionnaire contenant:
-            - resultats_par_mode
-            - resultats_individuels
-            - all_y_true / all_y_pred
-            - all_y_true_ind / all_y_pred_ind
-            - best_mode
-            - n_classes
+    returns:
+        dict: dict contenant les resultats agreges.
     """
-    echantillons = list(range(1, 12))
-    np.random.shuffle(echantillons)
+    # preparation des folds pour la validation croisee par echantillon
+    echantillons = list(range(1, 12)) # suppose 11 echantillons (1 a 11)
+    np.random.shuffle(echantillons) # melange des echantillons
     
     fold_size = len(echantillons) // n_folds
     folds = []
+    # creation des listes d'echantillons pour chaque fold
     for i in range(n_folds):
         start = i * fold_size
         if i == n_folds - 1:
-            folds.append(echantillons[start:])
+            folds.append(echantillons[start:]) # le dernier fold prend le reste
         else:
             folds.append(echantillons[start:start + fold_size])
     
     modes = ['majoritaire_simple', 'majoritaire_pondere', 'majoritaire_confiance']
-    resultats_par_mode = {mode: [] for mode in modes}
-    resultats_individuels = {method: [] for method in methods}
+    resultats_par_mode = {mode: [] for mode in modes} # stockage des accuracies par mode
+    resultats_individuels = {method: [] for method in methods} # stockage des accuracies par methode
     
-    # Accumuler toutes les prédictions pour la matrice de confusion
+    # accumulation pour matrice de confusion (sur tous les folds)
     all_y_true = {mode: [] for mode in modes}
     all_y_pred = {mode: [] for mode in modes}
     all_y_true_ind = {m: [] for m in methods}
     all_y_pred_ind = {m: [] for m in methods}
     
+    # definition des poids personnalises pour le mode pondere
     poids_personnalise = {
-        "E34": 1.0,
-        "GFD": 1.5,
-        "SA": 1.2,
-        "F0": 0.8,
-        "F2": 0.8
+        "e34": 1.0,
+        "gfd": 1.5, # donne plus de poids a gfd
+        "sa": 1.2,
+        "f0": 0.8,
+        "f2": 0.8
     }
     
+    # boucle sur chaque fold
     for fold_idx, test_samples in enumerate(folds):
         print(f"\n{'='*50}")
-        print(f"FOLD {fold_idx+1}/{n_folds}")
-        print(f"Échantillons de test : {test_samples}")
+        print(f"fold {fold_idx+1}/{n_folds}")
+        print(f"echantillons de test : {test_samples}")
         print('='*50)
         
+        # separation train/test des donnees (all_methods=true)
         data_split = separer_train_test_par_echantillon(data, test_samples, all_methods=True)
         
         first_method = list(data_split.keys())[0]
-        n_test = len(data_split[first_method]['X_test'])
+        n_test = len(data_split[first_method]['x_test'])
         y_test = data_split[first_method]['y_test']
         
-        print(f"Taille du test : {n_test} échantillons")
+        print(f"taille du test : {n_test} echantillons")
         
-        # Évaluer chaque méthode individuellement
-        print("\nPerformances individuelles:")
+        # evaluer chaque methode individuellement
+        print("\nperformances individuelles:")
         resultats_ind = evaluer_methodes_individuelles(data_split, k)
         for method, res in resultats_ind.items():
             accuracy = res['accuracy']
             resultats_individuels[method].append(accuracy)
             print(f"  {method:3s}: {accuracy*100:.2f}%")
-            # Accumuler pour matrice de confusion
+            # accumuler pour matrice de confusion
             all_y_true_ind[method].extend(res['y_test'])
             all_y_pred_ind[method].extend(res['y_pred'])
-        
+            
+        # initialisation et entrainement du vote majoritaire
         voteur = VoteMajoritaire(k=k, weights=poids_personnalise, use_confidence=True)
         voteur.entrainer(data_split, verbose=False)
         
-        print("\nPerformances du vote majoritaire:")
+        # evaluation des modes de vote
+        print("\nperformances du vote majoritaire:")
         for mode in modes:
             y_pred, details = voteur.predire_ensemble(data_split, mode=mode)
             accuracy = np.sum(y_pred == y_test) / len(y_test) if len(y_test) > 0 else 0
             resultats_par_mode[mode].append(accuracy)
             print(f"  {mode:20s}: {accuracy*100:.2f}%")
             
-            # Accumuler pour matrice de confusion
+            # accumuler pour matrice de confusion
             all_y_true[mode].extend(y_test)
             all_y_pred[mode].extend(y_pred)
     
-    # Résumé final
-    print("\nRÉSUMÉ DE LA VALIDATION CROISÉE")
+    # resume final
+    print("\nresume de la validation croisee")
     
-    print("\nMoyennes des précisions individuelles:")
+    print("\nmoyennes des precisions individuelles:")
     for method in methods:
         if resultats_individuels[method]:
             mean_acc = np.mean(resultats_individuels[method])
             std_acc = np.std(resultats_individuels[method])
             print(f"  {method:3s}: {mean_acc*100:.2f}% (±{std_acc*100:.2f}%)")
     
-    print("\nMoyennes du vote majoritaire:")
+    print("\nmoyennes du vote majoritaire:")
     for mode in modes:
         mean_acc = np.mean(resultats_par_mode[mode])
         std_acc = np.std(resultats_par_mode[mode])
         print(f"  {mode:20s}: {mean_acc*100:.2f}% (±{std_acc*100:.2f}%)")
     
-    # Identifier la meilleure méthode
+    # identifier la meilleure methode (individuelle et vote)
     best_individual = max(
         [(m, np.mean(acc)) for m, acc in resultats_individuels.items() if acc],
         key=lambda x: x[1]
@@ -281,15 +300,17 @@ def validation_croisee_complete(data, k=5, n_folds=3, n_classes=9):
     )
     
     print("\n" + "-"*50)
-    print(f"Meilleure méthode individuelle: {best_individual[0]} ({best_individual[1]*100:.2f}%)")
-    print(f"Meilleur mode de vote: {best_vote[0]} ({best_vote[1]*100:.2f}%)")
+    print(f"meilleure methode individuelle: {best_individual[0]} ({best_individual[1]*100:.2f}%)")
+    print(f"meilleur mode de vote: {best_vote[0]} ({best_vote[1]*100:.2f}%)")
     
+    # calcul de l'amelioration
     improvement = (best_vote[1] - best_individual[1]) / best_individual[1] * 100
     if improvement > 0:
-        print(f"Le vote majoritaire améliore de {improvement:.1f}%")
+        print(f"le vote majoritaire ameliore de {improvement:.1f}%")
     else:
-        print(f"Le vote majoritaire dégrade de {abs(improvement):.1f}%")
+        print(f"le vote majoritaire degrade de {abs(improvement):.1f}%")
     
+    # retour des resultats
     return {
         'resultats_par_mode': resultats_par_mode,
         'resultats_individuels': resultats_individuels,
