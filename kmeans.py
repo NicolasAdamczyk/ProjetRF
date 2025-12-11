@@ -1,5 +1,5 @@
 import numpy as np
-from collections import Counter
+from collections import Counter #outil pour compter les occurrences (utilise pour la purete)
 from utils import distance_euclidienne
 
 def initialiser_centroides(X, k, method='random'):
@@ -13,21 +13,28 @@ def initialiser_centroides(X, k, method='random'):
     Returns:
         np.ndarray: centroides initialisés.
     """
-    n = len(X)
+    n = len(X) #nb total de pts
     if method == 'random':
+        #init aleatoire: selectionne k points de donnees au hasard comme centroides
         indices = np.random.choice(n, k, replace=False)
-        return X[indices].copy()
+        return X[indices].copy() #return les points correspondant a ces indices
     elif method == 'kmeans++':
-        centroids = []
-        first_idx = np.random.randint(n)
+        #init kmeans++ pour choisir centroides bien separes
+        centroids = [] #list centroides selectionnes
+        first_idx = np.random.randint(n) #choix aleatoire du 1er centroide 
         centroids.append(X[first_idx])
         for _ in range(1, k):
-            distances = np.array([min([distance_euclidienne(x, c) for c in centroids]) for x in X]) # Calcul des distances minimales à tous les centroides existants (voir utils.py)
+            #calcul distances minimales a tous les centroides existants (voir utils.py)
+            # distance minimale de chaque point x au centroide le plus proche
+            distances = np.array([min([distance_euclidienne(x, c) for c in centroids]) for x in X])
+            #probabilites de selection (d^2)
             probabilities = distances ** 2
+            #normalisation pour avoir une somme de proba egale a 1
             probabilities /= probabilities.sum()
+            #selection du prochain centroide avec une proba proportionnelle a distance^2
             next_idx = np.random.choice(n, p=probabilities)
             centroids.append(X[next_idx])
-        return np.array(centroids)
+        return np.array(centroids) #retourne la liste de centroides comme un np.array
 
 def assigner_clusters(X, centroides):
     """
@@ -39,8 +46,8 @@ def assigner_clusters(X, centroides):
     Returns:
         tuple: (labels des clusters, distances aux centroides assignés)
     """
-    n = len(X)
-    k = len(centroides)
+    n = len(X) #nb de points
+    k = len(centroides) #nb de clusters
     labels = np.zeros(n, dtype=int)
     distances = np.zeros(n)
     for i in range(n):
@@ -71,35 +78,50 @@ def calculer_centroides(X, labels, k):
 
 def kmeans(X, k, max_iter=100, tol=1e-4, init='kmeans++', n_init=10):
     """
-    Algorithme K-Means avec multi-initialisation.
+    algorithme k-means avec multi-initialisation.
 
-    Args:
-        X (list): données.
-        k (int): nombre de clusters.
-        max_iter (int): nombre maximum d'itérations.
-        tol (float): tolérance pour convergence.
-        init (str): méthode d'initialisation (random ou kmeans++).
-        n_init (int): nombre d'initialisations aléatoires pour choisir la meilleure.
+    args:
+        X (list): donnees (np.ndarray).
+        k (int): nb de clusters.
+        max_iter (int): nb max d'iterations par run.
+        tol (float): tolerance pour convergence (changement de centroides negligeable).
+        init (str): methode d'init (random ou kmeans++).
+        n_init (int): nb d'initialisations aleatoires pour choisir la meilleure (meilleure inertie).
 
-    Returns:
-        tuple: (labels finaux, centroides finaux, inertie finale)
+    returns:
+        tuple: (labels finaux (np.array), centroides finaux (np.array), inertie finale (float))
     """
-    best_inertia = float('inf')
+    best_inertia = float('inf') # inertie la plus faible trouvee (meilleur score)
     best_labels = None
     best_centroids = None
+    
+    # multi-initialisation
     for run in range(n_init):
+        # init des centroides (random ou kmeans++)
         centroides = initialiser_centroides(X, k, method=init)
+        
+        # boucle d'iteration de l'algorithme
         for _ in range(max_iter):
+            # etape e: assignation des points aux clusters
             labels, distances = assigner_clusters(X, centroides)
+            # etape m: recalcul des centroides
             nouveaux_centroides = calculer_centroides(X, labels, k)
-            if np.allclose(centroides, nouveaux_centroides, atol=tol): # On vérifie la convergence
-                break
-            centroides = nouveaux_centroides
+            
+            # verification de la convergence (les centroides ont-ils bouge de moins que 'tol'?)
+            if np.allclose(centroides, nouveaux_centroides, atol=tol): 
+                break # si converge, on sort de la boucle d'iteration
+            
+            centroides = nouveaux_centroides # mise a jour des centroides
+        
+        # calcul de l'inertie (somme des carres des distances des points a leur centroide)
         inertia = np.sum(distances ** 2)
+        
+        # mise a jour du meilleur resultat si l'inertie est meilleure
         if inertia < best_inertia:
             best_inertia = inertia
             best_labels = labels
             best_centroids = centroides
+            
     return best_labels, best_centroids, best_inertia
 
 def evaluer_clustering(y_true, y_pred):
@@ -112,13 +134,17 @@ def evaluer_clustering(y_true, y_pred):
     Returns:
         float: pureté du clustering.
     """
-    n = len(y_true)
+    n = len(y_true) # nb total de points
     purity = 0
+    # itere sur chaque cluster predit
     for cluster in np.unique(y_pred):
-        mask = y_pred == cluster
+        mask = y_pred == cluster # masque booleen pour les points de ce cluster
         if np.sum(mask) > 0:
+            # compte les occurrences des vraies classes dans ce cluster
+            # most_common(1)[0][1] recupere le compte de la classe majoritaire
             classe_majoritaire = Counter(y_true[mask]).most_common(1)[0][1]
-            purity += classe_majoritaire
+            purity += classe_majoritaire # ajoute le nb de points bien classes
+    # normalise par le nb total de points
     purity /= n
     return purity
 
@@ -133,16 +159,20 @@ def mapper_clusters_vers_classes(y_pred, y_true):
     Returns:
         tuple: (labels mappés selon classes, dictionnaire mapping cluster:classe)
     """
-    clusters_uniques = np.unique(y_pred)
-    mapping = {}
+    clusters_uniques = np.unique(y_pred) # liste des indices de clusters (ex: 0, 1, ..., k-1)
+    mapping = {} # dict pour stocker l'association cluster -> classe
     for cluster in clusters_uniques:
         mask = y_pred == cluster
         if np.sum(mask) > 0:
-            classe_majoritaire = Counter(y_true[mask]).most_common(1)[0][0]
-            mapping[cluster] = classe_majoritaire
-    y_mapped = np.zeros_like(y_pred)
+            # recupere l'indice (0) de la classe majoritaire ([0][0])
+            classe_majoritaire = Counter(y_true[mask]).most_common(1)[0][0] 
+            mapping[cluster] = classe_majoritaire # enregistre le mapping
+            
+    y_mapped = np.zeros_like(y_pred) # array pour les labels apres mapping
     for i in range(len(y_pred)):
-        y_mapped[i] = mapping[y_pred[i]]
+        # applique le mapping (cluster -> classe) a chaque point
+        y_mapped[i] = mapping[y_pred[i]] 
+        
     return y_mapped, mapping
 
 def validation_croisee_kmeans(X, y_true, k=9, n_folds=5, max_iter=100, init="kmeans++", n_init=10):
